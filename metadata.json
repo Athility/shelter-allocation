@@ -1,0 +1,6 @@
+{
+  "name": "Disaster Relief Distribution & Shelter Allocator",
+  "description": "DSA Microproject (SAKEC AI & DS Group 4): Interactive emergency relief dispatch simulator using Max Heap, Adjacency List Graph, Dijkstra's Algorithm, 0/1 Knapsack DP, and BFS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
