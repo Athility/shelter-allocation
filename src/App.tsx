@@ -585,6 +585,12 @@ export default function App() {
               Road Network
             </a>
             <a
+              href="#dispatch-plan"
+              className="hover:text-orange-400 transition-colors whitespace-nowrap shrink-0"
+            >
+              Dispatch Plan
+            </a>
+            <a
               href="#distress"
               className="hover:text-orange-400 transition-colors whitespace-nowrap shrink-0"
             >
@@ -595,12 +601,6 @@ export default function App() {
               className="hover:text-orange-400 transition-colors whitespace-nowrap shrink-0"
             >
               Supply Knapsack
-            </a>
-            <a
-              href="#algorithms"
-              className="hover:text-orange-400 transition-colors whitespace-nowrap shrink-0"
-            >
-              DSA Complexity
             </a>
           </nav>
 
@@ -980,6 +980,7 @@ export default function App() {
 
           {/* Active Dispatch Plan & Live Computation Event Log (5 cols in Compact, 12 cols side-by-side in Full) */}
           <div
+            id="dispatch-plan"
             className={`${
               graphViewMode === 'full'
                 ? 'lg:col-span-12 grid grid-cols-1 lg:grid-cols-2'
@@ -1743,121 +1744,6 @@ export default function App() {
               </table>
             </div>
           )}
-        </section>
-
-        {/* ==================================================================
-            ROW 4: DSA EXPLANATION & COMPLEXITY PANEL (FOR VIVA)
-           ================================================================== */}
-        <section
-          id="algorithms"
-          className="bg-white rounded-xl p-6 border border-slate-200 space-y-5"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-200 pb-4">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">
-                05. Data Structures &amp; Algorithms Reference (Viva Guide)
-              </h2>
-              <p className="text-xs text-slate-500">
-                Core algorithms, asymptotic time/space complexities, and role in the emergency dispatch pipeline
-              </p>
-            </div>
-            <div className="text-xs font-mono text-slate-600">
-              V = {ALL_NODES.length} vertices · E = {roads.length} edges · n ={' '}
-              {supplies.length} items · W = {vehicleCapacity} capacity
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Algorithm 1: Max Heap */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-              <div className="text-xs font-mono font-bold text-orange-600">
-                1. Max Heap / Priority Queue
-              </div>
-              <div className="text-sm font-bold text-slate-900">
-                Distress Call Triage
-              </div>
-              <div className="text-xs font-mono text-teal-800 bg-teal-50 px-2.5 py-1 rounded border border-teal-200 inline-block">
-                Insert / Extract: O(log n)
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Maintains pending distress requests in a complete binary tree
-                where parent severity ≥ child severity. Extracts the most
-                critical zone first while using monotonic sequence numbers to
-                preserve FIFO arrival order for equal severities.
-              </p>
-            </div>
-
-            {/* Algorithm 2: Dijkstra + Graph */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-              <div className="text-xs font-mono font-bold text-orange-600">
-                2. Dijkstra + Adjacency List
-              </div>
-              <div className="text-sm font-bold text-slate-900">
-                Shortest Available Route
-              </div>
-              <div className="text-xs font-mono text-teal-800 bg-teal-50 px-2.5 py-1 rounded border border-teal-200 inline-block">
-                Time: O((V + E) log V)
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Represents Depot and zones as graph vertices (V) and road
-                distances as weighted edges (E) in an adjacency list. Uses a
-                binary min-heap to compute the shortest unblocked path from the
-                Depot, dynamically rerouting when roads are blocked.
-              </p>
-            </div>
-
-            {/* Algorithm 3: 0/1 Knapsack DP */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-              <div className="text-xs font-mono font-bold text-orange-600">
-                3. 0/1 Knapsack (DP)
-              </div>
-              <div className="text-sm font-bold text-slate-900">
-                Relief Payload Optimization
-              </div>
-              <div className="text-xs font-mono text-teal-800 bg-teal-50 px-2.5 py-1 rounded border border-teal-200 inline-block">
-                Time: O(nW) · Space: O(nW)
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Constructs an (n+1)×(W+1) Dynamic Programming table where n is
-                the number of supply items and W is vehicle capacity. Guarantees
-                the globally optimal utility payload (220 vs. Greedy&apos;s 160 on
-                the baseline dataset).
-              </p>
-            </div>
-
-            {/* Algorithm 4: BFS */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-              <div className="text-xs font-mono font-bold text-orange-600">
-                4. Breadth-First Search (BFS)
-              </div>
-              <div className="text-sm font-bold text-slate-900">
-                Zone Reachability Analysis
-              </div>
-              <div className="text-xs font-mono text-teal-800 bg-teal-50 px-2.5 py-1 rounded border border-teal-200 inline-block">
-                Time: O(V + E) · Space: O(V)
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Traverses active edges level-by-level from the Depot using a
-                FIFO queue to identify all reachable zones (A, B, C, D, E) and
-                detect disconnected components (F–G) or zones isolated by road
-                blockages.
-              </p>
-            </div>
-          </div>
-
-          {/* Variable Notation Legend */}
-          <div className="p-3.5 rounded-lg bg-slate-900 text-slate-200 text-xs font-mono flex flex-wrap items-center justify-between gap-3">
-            <span>
-              <strong className="text-orange-400">Complexity Variables:</strong>{' '}
-              <strong>V</strong> = Number of graph vertices (Depot + zones) ·{' '}
-              <strong>E</strong> = Number of road edges ·{' '}
-              <strong>n</strong> = Number of supply items / heap requests ·{' '}
-              <strong>W</strong> = Relief vehicle capacity
-            </span>
-            <span className="text-teal-400">
-              All outputs computed live in browser JavaScript
-            </span>
-          </div>
         </section>
       </main>
 
